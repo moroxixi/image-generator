@@ -3,50 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q&A Generator Pro - @rofi_m37</title>
+    <title>Q&A Image Generator - @rofi_m37</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Roboto+Mono&family=Libre+Baskerville:ital@0;1&family=Poppins:wght@400;700&family=Open+Sans&family=Lato&family=Raleway&family=Quicksand&family=Lexend&family=Bebas+Neue&family=Lora&family=Merriweather&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@1,600&family=DM+Serif+Display&family=Prata&family=Space+Grotesk:wght@500&family=Syne:wght@700&family=Unbounded:wght@700&family=Outfit:wght@600&family=Archivo+Black&family=JetBrains+Mono&family=Fira+Code&family=Courier+Prime&family=Source+Code+Pro&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 
     <style>
-        body { background-color: #0a0a0a; color: #f0f0f0; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .container { max-width: 700px; width: 100%; }
+        body { background-color: #0a0a0a; color: #f0f0f0; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .container { max-width: 750px; width: 100%; }
         .controls { background: #151515; padding: 25px; border-radius: 16px; margin-bottom: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border: 1px solid #222; }
         .full-width { grid-column: span 2; }
         label { display: block; font-size: 10px; color: #666; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-        input, textarea, select { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 8px; box-sizing: border-box; outline: none; }
+        input, textarea, select { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 8px; box-sizing: border-box; outline: none; font-size: 16px; /* Font 16px cegah auto-zoom di iPhone */ }
         input:focus, textarea:focus { border-color: #555; }
-        canvas { width: 100%; height: auto; border: 1px solid #222; border-radius: 8px; box-shadow: 0 30px 60px rgba(0,0,0,0.7); }
-        .btn-download { background: #fff; color: #000; border: none; padding: 18px; width: 100%; font-weight: 800; margin-top: 25px; border-radius: 10px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; }
+        canvas { width: 100%; height: auto; border: 1px solid #222; border-radius: 8px; box-shadow: 0 30px 60px rgba(0,0,0,0.7); display: block; }
+        .btn-download { background: #fff; color: #000; border: none; padding: 18px; width: 100%; font-weight: 800; margin-top: 25px; border-radius: 10px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; font-size: 14px; }
         .btn-download:hover { background: #ddd; transform: translateY(-2px); }
+        h1 { text-align: center; font-size: 24px; letter-spacing: 4px; margin-bottom: 10px; }
+        p.subtitle { text-align: center; color: #555; font-size: 12px; margin-bottom: 30px; letter-spacing: 1px; }
+        .main-footer { text-align: center; margin-top: 50px; padding-bottom: 40px; color: #555; opacity: 0.7; font-size: 13px; }
+        
+        /* Mobile adjustment */
+        @media (max-width: 480px) {
+            .controls { grid-template-columns: 1fr; gap: 15px; }
+            .full-width { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1 style="text-align: center; font-size: 24px; letter-spacing: 4px; margin-bottom: 30px;">Q&A IMAGE GENERATOR</h1>
+        <h1>Q&A Image Generator</h1>
+        <p class="subtitle">Make simple content by @rofi_m37</p>
         
         <div class="controls">
             <div class="full-width">
-                <label>Question: </label>
-                <input type="text" id="qInput" value="How to be successful?" oninput="draw()">
+                <label>Question:</label>
+                <input type="text" id="qInput" placeholder="Enter your question here..." value="How to be successful?" oninput="draw()">
             </div>
             
             <div class="full-width">
-                <label>Answer: </label>
-                <textarea id="aInput" rows="3" oninput="draw()">Be the best in the world in your field.</textarea>
+                <label>Answer:</label>
+                <textarea id="aInput" rows="3" oninput="draw()" placeholder="Enter your answer here...">Be the best in the world in your field.</textarea>
+            </div>
+
+            <div>
+                <label>Custom Watermark</label>
+                <input type="text" id="wmInput" value="@rofi_m37" oninput="draw()">
             </div>
 
             <div>
                 <label>Typography Style</label>
                 <select id="fontSelect" onchange="draw()">
-                    <optgroup label="Recommendations font...">
+                    <optgroup label="Recommended Fonts">
                         <option value="Inter">Inter (Modern Sans)</option>
                         <option value="'Playfair Display'">Playfair (Classic Serif)</option>
                         <option value="Montserrat">Montserrat (Geometric)</option>
                         <option value="'Roboto Mono'">Roboto Mono (Tech)</option>
                         <option value="'Libre Baskerville'">Baskerville (Elegant)</option>
                     </optgroup>
-                    <optgroup label="Other font...">
+                    <optgroup label="Other Fonts">
                         <option value="Poppins">Poppins</option>
                         <option value="'Open Sans'">Open Sans</option>
                         <option value="Raleway">Raleway</option>
@@ -73,15 +88,19 @@
                 </select>
             </div>
 
-            <div>
-                <label>Text Position (Vertical)</label>
-                <input type="range" id="yPos" min="200" max="800" value="500" oninput="draw()">
+            <div class="full-width">
+                <label>Text Position</label>
+                <input type="range" id="yPos" min="200" max="750" value="500" oninput="draw()">
             </div>
         </div>
 
         <canvas id="quoteCanvas" width="1080" height="1080"></canvas>
         
         <button class="btn-download" onclick="download()">DOWNLOAD IMAGE</button>
+
+        <footer class="main-footer">
+            <p>&copy;2026 Image Generator • Instagram @rofi_m37</p>
+        </footer>
     </div>
 
     <script>
@@ -91,30 +110,31 @@
             
             const q = document.getElementById('qInput').value;
             const a = document.getElementById('aInput').value;
+            const wm = document.getElementById('wmInput').value;
             const font = document.getElementById('fontSelect').value;
             const yPos = parseInt(document.getElementById('yPos').value);
 
+            // 1. Black Background
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const centerX = canvas.width / 2;
 
-            // Q Style
+            // 2. Render Question (Q:)
             ctx.textAlign = "center";
             ctx.fillStyle = "#666666";
             ctx.font = `700 38px ${font}`;
-            ctx.fillText("Q: " + q.toUpperCase(), centerX, yPos - 70);
+            ctx.fillText("Q: " + q.toUpperCase(), centerX, yPos - 80);
 
-            // A Style
+            // 3. Render Answer (A:)
             ctx.fillStyle = "#ffffff";
             ctx.font = `500 56px ${font}`;
-            
             wrapText(ctx, "A: " + a, centerX, yPos + 40, 800, 80);
 
-            // Watermark (Dinaikkan agar aman dari UI Instagram)
-            ctx.fillStyle = "#333333";
-            ctx.font = "700 28px 'Inter', sans-serif";
-            ctx.fillText("@rofi_37", centerX, canvas.height - 100);
+            // 4. Custom User Watermark (Main Branding)
+            ctx.fillStyle = "#444444";
+            ctx.font = "700 30px 'Inter', sans-serif";
+            ctx.fillText(wm.toUpperCase(), centerX, canvas.height - 100);
         }
 
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
@@ -138,15 +158,18 @@
             const canvas = document.getElementById('quoteCanvas');
             const timestamp = Date.now();
             const link = document.createElement('a');
-            link.download = `rofi-studio-${timestamp}.png`;
+            link.download = `qa-image-generator-${timestamp}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
 
-        // Tunggu semua font selesai didownload sebelum menampilkan preview pertama
+        // Jalankan draw pertama kali saat font siap
         document.fonts.ready.then(() => {
             draw();
         });
+
+        // Backup draw jika fonts.ready tidak trigger di browser lama
+        window.onload = draw;
     </script>
 </body>
 </html>
