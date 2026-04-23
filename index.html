@@ -134,7 +134,7 @@
             // 4. Custom User Watermark (Main Branding)
             ctx.fillStyle = "#444444";
             ctx.font = "700 30px 'Inter', sans-serif";
-            ctx.fillText(wm.toUpperCase(), centerX, canvas.height - 100);
+            ctx.fillText(wm.toLowerCase(), centerX, canvas.height - 100);
         }
 
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
